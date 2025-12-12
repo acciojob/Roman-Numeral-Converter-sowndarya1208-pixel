@@ -33,7 +33,7 @@ function convertToRoman(num) {
     }
   }
 
-  return result;
+  console.log(result);
 }
 
 // Do not change the code below this line (usually required by these platforms)
