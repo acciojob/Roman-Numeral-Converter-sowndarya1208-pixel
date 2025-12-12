@@ -17,28 +17,28 @@ function convertToRoman(num) {
         let roman = symbols[i][0];
         let value = symbols[i][1];
 
-        // subtraction check (look ahead)
+        // Handle subtractive cases (IV, IX, XL, XC, CD, CM)
         if (i < symbols.length - 1) {
             let nextValue = symbols[i + 1][1];
-            let subtractive = value - nextValue;
+            let subtractiveValue = value - nextValue;
 
-            // If subtractive case matches, append like CM, CD, XC, etc.
-            if (num >= subtractive && subtractive !== value) {
-                if (
-                    (roman === 'M' && subtractive === 900) ||
-                    (roman === 'D' && subtractive === 400) ||
-                    (roman === 'C' && subtractive === 90) ||
-                    (roman === 'L' && subtractive === 40) ||
-                    (roman === 'X' && subtractive === 9) ||
-                    (roman === 'V' && subtractive === 4)
-                ) {
-                    result += symbols[i + 1][0] + roman;
-                    num -= subtractive;
+            // Match valid subtractive pairs
+            if (
+                (subtractiveValue === 900 && roman === 'M') ||
+                (subtractiveValue === 400 && roman === 'D') ||
+                (subtractiveValue === 90  && roman === 'C') ||
+                (subtractiveValue === 40  && roman === 'L') ||
+                (subtractiveValue === 9   && roman === 'X') ||
+                (subtractiveValue === 4   && roman === 'V')
+            ) {
+                if (num >= subtractiveValue) {
+                    result += symbols[i + 1][0] + roman; // example: C + M = CM
+                    num -= subtractiveValue;
                 }
             }
         }
 
-        // normal case
+        // Normal conversion logic
         while (num >= value) {
             result += roman;
             num -= value;
@@ -47,3 +47,5 @@ function convertToRoman(num) {
 
     return result;
 }
+
+module.exports = convertToRoman;
